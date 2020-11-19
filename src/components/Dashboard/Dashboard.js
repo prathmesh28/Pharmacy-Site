@@ -17,7 +17,7 @@ import CIcon from '@coreui/icons-react'
 import { freeSet } from '@coreui/icons'
 import { Link } from "react-router-dom";
 
-import Form from './Form'
+// import Form from './Form'
 
 function Dashboard() {
   const [info, setInfo] = useState(false)
