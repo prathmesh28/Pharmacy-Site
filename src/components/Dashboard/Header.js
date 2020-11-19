@@ -23,7 +23,7 @@ export default function Header() {
                   height={50}
                 />
                 <CHeaderNavLink to="/dashboard">
-              <span style={{color:"#fff", marginLeft:10}}><b>Hospital Admin</b></span>
+              <span style={{color:"#fff", marginLeft:10}}><b>Pharmacy </b></span>
               </CHeaderNavLink>
             </CNavbarBrand>
             <CCollapse show={isOpen} navbar>
