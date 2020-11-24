@@ -32,39 +32,45 @@ import 'react-imageview/dist/react-imageview.min.css'
 
 
 
-const fields = ['id', 'name', 'Prescriptions', 'status']
+
+const fields = ['id', 'name', { key: 'phone', Label: 'Phone No' }, 'Date', 'View', 'Status','Delete']
 
 class Dashboard extends React.Component {
   constructor() {
     super();
     this.state = {
-      data:null,
-      name:"",
-      id:"",
+      data: null,
+      name: "",
+      id: "",
+      image: "",
+      
       //folder with prescription
     }
-    this.state={
-      showViewer:false
+    this.state = {
+      showViewer: false
     }
   }
 
   componentDidMount() {
-        // Firebase.database().ref('/Users/').on("value",(item) => {
-           Firebase.database().ref('/Doctors/').on("value",(item) =>{
-      const users=_.map(item.val(),(e)=>{
+    // Firebase.database().ref('/Users/').on("value",(item) => {
+    Firebase.database().ref('/Pharmacy/').on("value", (item) => {
+      const users = _.map(item.val(), (e) => {
         return e.data
+
       })
-      this.setState({data:users})
+      this.setState({ data: users })
+
     })
 
   }
-  
+
 
 
 
   render() {
 
     const data = this.state.data
+
     // const details = this.state.details
 
 
@@ -77,60 +83,108 @@ class Dashboard extends React.Component {
               User Data
             </CCardHeader> */}
             <CCard>
-            <CCardBody>
-              <CDataTable
-                items={data}
-                fields={fields}
-                columnFilter
-                //tableFilter
-                itemsPerPageSelect
-                itemsPerPage={5}
-                hover
-                sorter
-                pagination
-                scopedSlots={{
+              <CCardBody>
+                <CDataTable
+                  items={data}
+                  fields={fields}
+                  columnFilter
+                  //tableFilter
+                  itemsPerPageSelect
+                  itemsPerPage={5}
+                  hover
+                  sorter
+                  pagination
 
-                  'status':
-                    (item) => (
-                      <td>
-                        <CButton
-                          color="primary"
-                          variant="outline"
-                          shape="square"
-                          size="sm"
-
-                          onClick={() => {let userRef = Firebase.database().ref('Doctors/' + item.id)
-                          userRef.remove()
-                         console.log(userRef)
-                         
-                         }}>Delete</CButton>
-                      </td>)
-                }}>
+                  scopedSlots={{
 
 
+                    'View':
+                      (item) => (
+                        <td>
+                          <CButton
+                            color="primary"
+                            variant="outline"
+                            shape="square"
+                            size="sm"
+
+                            onClick={() => {
+                              // let userRef = Firebase.database().ref('Pharmacy/' + item.id)
+                              // userRef.remove()
+                              // console.log(userRef)
+                              this.setState({
+                                image: item.url
+                              });
+
+                            }}>View</CButton>
+                        </td>),
+                      
+                      'Status':
+                       (item)=>(
+                         <td>
+                           <CButton
+                           color="primary"
+                           shape="outline"
+                           size="sm"
+
+                           onClick={()=>{
+                             console.log("hiii")
+                           }}>Status</CButton>
+                         </td>
+                       ),
+                    
+                    'Delete':
+                      (item, index) => {
+                        return (
+                          <td className="py-2">
+
+                            <CButton size="sm" color="danger" className="ml-1"
+                              onClick={async () => {
+                                var r = await window.confirm("Table entry of name: " + item.name + " will be deleted");
+                                if (r === true) {
+
+                                  let userRef = Firebase.database().ref('Pharmacy/' + item.id)
+                                  userRef.remove()
+                                }
+
+
+                              }}>
+                              Delete
+                               </CButton>
+                          </td>
+                        )
+                      },
+
+
+                  }}>
 
 
 
 
 
-              </CDataTable>
-            </CCardBody>
+
+
+                </CDataTable>
+              </CCardBody>
             </CCard>
 
           </CCol>
           <CCol xs="5" lg="5">
             <CCard>
-            <CCardBody>
-              <CImg
-              src="https://picsum.photos/530/480/?image=54"
-      fluid
-      className="mb-2">
-              </CImg>
-            
-            </CCardBody>
+              <CCardBody>
+                <CImg
+                  style={{ height: 500, width: 500 }}
+                  src={this.state.image}
+                // fluid
+                // className="mb-2"
+                >
+
+
+                </CImg>
+
+              </CCardBody>
             </CCard>
           </CCol>
-          
+
 
         </CRow>
 
