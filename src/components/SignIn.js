@@ -15,7 +15,7 @@ import {
   CRow,
   CModal,
 } from '@coreui/react'
-import Loader from "react-loader";
+// import Loader from "react-loader";
 import CIcon from '@coreui/icons-react'
 import Enum from 'enum'
 import { freeSet } from '@coreui/icons'
@@ -113,7 +113,7 @@ export default function SignIn() {
               
             >
               
-              <Loader
+              {/* <Loader
                 loaded={!loaded}
                 lines={30}
                 length={40}
@@ -135,7 +135,7 @@ export default function SignIn() {
                 scale={1.0}
                 loadedClassName="loadedContent"
                 position= {'absolute'}
-              />
+              /> */}
              
             </CModal>
         
